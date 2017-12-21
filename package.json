@@ -1,0 +1,9 @@
+{
+  "name": "extra-sugar",
+  "version": "1.0.0",
+  "description": "Additional helpful methods and TypeScript definitions for Sugar JS",
+  "main": "dist/index.js",
+  "repository": "https://github.com/romancow/extra-sugar",
+  "author": "Sean Wilson",
+  "license": "MIT"
+}
