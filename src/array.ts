@@ -1,24 +1,42 @@
 /// <reference path="../node_modules/sugar/sugar-extended.d.ts" />
 import 'sugar'
 
-type UnensuredArray<T> = T[] | T | null;
+export type UnensuredArray<T> = T[] | T | null;
 
 declare global {
 	interface ArrayConstructor {
-		ensure<T>(arr: UnensuredArray<T>, ignoreNull?: boolean): T[]
-		move<T>(arr: T[], fromIndex: number, toIndex: number): T
-		indexesOf<T>(arr: T[], items: T[] | T): number[]
+		ensure<T>(instance: UnensuredArray<T>, ignoreNull?: boolean): T[]
+		move<T>(instance: T[], fromIndex: number, toIndex: number): T
+		indexesOf<T>(instance: T[], items: T[] | T): number[]
+		sift<T>(instance: T[], search: Array.SearchFn<T>): T[]
+		tapEach<T>(instance: T[], eachFn: Array.CallbackFn<T>, context: any): T[]
+		toObject<T>(instance: T[], mapFn: Array.MapToKeyFn<T>): { [key: string]: any }
+		indexes(instance: any[]): sugarjs.Range
+		normalizeIndex(instance: any[], index: number, loop?: boolean): number
+		expel<T>(instance: T[], items: UnensuredArray<T>): T[]
 	}
 	
 	interface Array<T> {
 		// Sugar polyfills ES7's Array.includes, but doesn't provide a typescript definition of it
 		includes<T>(elem: T, fromIndex?: number): boolean
-		
 		// Sugar's definitions doesn't include RegExp version
 		exclude(search: RegExp): T[]
-	
+		remove(search: T|Array.SearchFn<T>): T[]
+
 		move(fromIndex: number, toIndex: number): T
 		indexesOf(items: T[] | T): number[]
+		sift(search: Array.SearchFn<T>): T[]
+		tapEach(eachFn: Array.CallbackFn<T>, context: any): this
+		toObject(mapFn: Array.MapToKeyFn<T>): { [key: string]: any }
+		indexes(): sugarjs.Range
+		normalizeIndex(index: number, loop?: boolean): number
+		expel(items: UnensuredArray<T>): this
+	}
+
+	namespace Array {
+		type CallbackFn<T> = (value: T, index: number, array: T[]) => void
+		type SearchFn<T> = (el: T, i: number, arr: T[]) => boolean
+		type MapToKeyFn<T> = (el: T, index: number, array: T[]) => string | [string, any];
 	}
 }
 
@@ -44,5 +62,49 @@ Sugar.Array.defineInstanceAndStatic({
 		return array
 			.map<number | null>((item: T, index: number) => itemsArr.includes(item) ? index : null)
 			.compact()
-	}
+	},
+
+	// Removes elements from array where fn is true and returns the removed elements
+	sift<T>(array: T[], search: Array.SearchFn<T>) {
+		const removed: T[] = []
+		array.remove((el, i, arr) => {
+			const remove = search(el, i, arr)
+			if (remove) removed.push(el)
+			return remove
+		})
+		return removed
+	},
+
+	// Like Array's forEach, but returns the array instead of undefined
+	tapEach<T>(array: T[], eachFn: Array.CallbackFn<T>, context: any) {
+		array.forEach(eachFn, context)
+		return array
+	},
+
+	// Maps each element of an array to a key/value pair in a new object
+	toObject<T>(array: T[], mapFn: Array.MapToKeyFn<T> = (el) => el && `${el}`) {
+		return array.reduce((obj, current, index, arr) => {
+			const result = mapFn(current, index, arr)
+			const [key, val] = Object.isArray(result) ? result : [result, current]
+			if (key != null) obj[key] = val
+			return obj
+		}, <{[key: string]: any}>{})
+	},
+
+	indexes(array: any[]) {
+		return Number.range(0, array.length)
+	},
+
+	normalizeIndex(array: any[], index: number, loop: boolean = false) {
+		let normalized = index
+		if (index && loop) normalized %= array.length
+		if (normalized < 0) normalized += array.length
+		return normalized
+	},
+
+	// Like `subtract`, but modifies the original array
+	expel<T>(array: T[], items: UnensuredArray<T>) {
+		const itemsArr = Array.ensure(items, items === undefined)
+		return array.remove((item) => itemsArr.includes(item))
+	},
 })
