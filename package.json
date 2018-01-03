@@ -9,6 +9,7 @@
     "build": "tsc"
   },
   "repository": "https://github.com/romancow/extra-sugar",
+  "files": ["dist/", "types/"],
   "keywords": [
     "sugar",
     "sugarjs",
