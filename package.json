@@ -1,6 +1,6 @@
 {
   "name": "extra-sugar",
-  "version": "1.0.0",
+  "version": "0.9.0",
   "description": "Additional helpful methods and TypeScript definitions for Sugar JS",
   "main": "./dist/index.js",
   "types": "./types/index.d.ts",
