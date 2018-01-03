@@ -14,5 +14,5 @@ tmp/
 .vscode/
 
 # ignore distribution files
-build/
 dist/
+types/
