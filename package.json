@@ -2,7 +2,8 @@
   "name": "extra-sugar",
   "version": "1.0.0",
   "description": "Additional helpful methods and TypeScript definitions for Sugar JS",
-  "main": "dist/index.js",
+  "main": "./dist/index.js",
+  "types": "./types/index.d.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc"
