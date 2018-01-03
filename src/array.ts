@@ -9,7 +9,7 @@ declare global {
 		move<T>(instance: T[], fromIndex: number, toIndex: number): T
 		indexesOf<T>(instance: T[], items: T[] | T): number[]
 		sift<T>(instance: T[], search: Array.SearchFn<T>): T[]
-		tapEach<T>(instance: T[], eachFn: Array.CallbackFn<T>, context: any): T[]
+		tapEach<T>(instance: T[], eachFn: Array.CallbackFn<T>, context?: any): T[]
 		toObject<T>(instance: T[], mapFn: Array.MapToKeyFn<T>): { [key: string]: any }
 		indexes(instance: any[]): sugarjs.Range
 		normalizeIndex(instance: any[], index: number, loop?: boolean): number
@@ -26,7 +26,7 @@ declare global {
 		move(fromIndex: number, toIndex: number): T
 		indexesOf(items: T[] | T): number[]
 		sift(search: Array.SearchFn<T>): T[]
-		tapEach(eachFn: Array.CallbackFn<T>, context: any): this
+		tapEach(eachFn: Array.CallbackFn<T>, context?: any): this
 		toObject(mapFn: Array.MapToKeyFn<T>): { [key: string]: any }
 		indexes(): sugarjs.Range
 		normalizeIndex(index: number, loop?: boolean): number
@@ -76,7 +76,7 @@ Sugar.Array.defineInstanceAndStatic({
 	},
 
 	// Like Array's forEach, but returns the array instead of undefined
-	tapEach<T>(array: T[], eachFn: Array.CallbackFn<T>, context: any) {
+	tapEach<T>(array: T[], eachFn: Array.CallbackFn<T>, context?: any) {
 		array.forEach(eachFn, context)
 		return array
 	},
