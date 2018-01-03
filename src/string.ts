@@ -9,7 +9,7 @@ declare global {
 	interface String {
 		canBeNumber(): boolean
 		compare(str: string | null): -1 | 0 | 1
-		splice(start: number, deleteCount?: number, ...items?: string[]): string
+		splice(start: number, deleteCount?: number, ...items: string[]): string
 	}
 }
 

@@ -1,7 +1,7 @@
 import 'sugar'
 import { UnensuredArray } from './array'
 
-type primitive = boolean | number | string | symbol | null | undefined
+export type primitive = boolean | number | string | symbol | null | undefined
 
 declare global {
 	interface ObjectConstructor {
@@ -23,7 +23,7 @@ declare global {
 
 	namespace Object {
 		type CollectFn<T extends Object, U> = (val: T[keyof T], key: keyof T, obj: T) => U;
-		type KeyMap<T extends Object> = ((key: keyof T, value: T[keyof T], T) => primitive) | { [key: string]: primitive }
+		type KeyMap<T extends Object> = ((key: keyof T, value: T[keyof T], obj: T) => primitive) | { [key: string]: primitive }
 		type DuplicateFn = <T extends Object>(orig: T) => T | typeof Sugar
 	}
 }
@@ -36,7 +36,7 @@ Sugar.Object.defineInstanceAndStatic({
 			return Object.mapKeys(partial, (key) => map[key], skipNull)
 		}
 		else {
-			const mapped = {}
+			const mapped: { [key: string]: any } = {}
 			Object.forEach(instance, (val, key) => {
 				let newKey = map(key, val, instance)
 				if ((newKey !== false) && ((newKey != null) || !skipNull)) {
@@ -92,7 +92,7 @@ Sugar.Object.defineInstanceAndStatic({
 })
 
 Sugar.Object.defineStatic({
-	isDefined(instance) { 
+	isDefined(instance: any) { 
 		return (typeof instance !== 'undefined') 
 	}
 })
