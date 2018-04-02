@@ -6,7 +6,8 @@
   "types": "./types/index.d.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "tsc"
+    "build": "tsc -p .",
+    "prepack": "npm run build"
   },
   "repository": "https://github.com/romancow/extra-sugar",
   "files": ["dist/", "types/"],
