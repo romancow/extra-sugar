@@ -15,13 +15,15 @@ declare global {
 		normalizeIndex(instance: any[], index: number, loop?: boolean): number
 		expel<T>(instance: T[], items: UnensuredArray<T>): T[]
 	}
-	
+
 	interface Array<T> {
 		// Sugar polyfills ES7's Array.includes, but doesn't provide a typescript definition of it
 		includes<T>(elem: T, fromIndex?: number): boolean
 		// Sugar's definitions doesn't include RegExp version
 		exclude(search: RegExp): T[]
 		remove(search: T|Array.SearchFn<T>): T[]
+		// Sugar's `Array.map` definition screws up intellisense, which is a pain since it's used a lot
+		map<U>(map: string | Array.MapFn<T, U>, context?: any): U[]
 
 		move(fromIndex: number, toIndex: number): T
 		indexesOf(items: T[] | T): number[]
@@ -34,6 +36,7 @@ declare global {
 	}
 
 	namespace Array {
+		type MapFn<T, U> = (value: T, index: number, array: ReadonlyArray<T>) => U
 		type CallbackFn<T> = (value: T, index: number, array: T[]) => void
 		type SearchFn<T> = (el: T, i: number, arr: T[]) => boolean
 		type MapToKeyFn<T> = (el: T, index: number, array: T[]) => string | [string, any];
@@ -44,7 +47,7 @@ Sugar.Array.defineStatic({
 	// Wraps the argument in an array if it isn't one
 	ensure<T>(arr: UnensuredArray<T>, ignoreNull = false): T[] {
 		const retEmpty = ignoreNull && (arr == null)
-		return !retEmpty ? Array.isArray(arr) ? 
+		return !retEmpty ? Array.isArray(arr) ?
 			arr : [arr as T] : ([] as T[])
 	}
 })
