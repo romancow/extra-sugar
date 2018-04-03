@@ -85,9 +85,10 @@ Sugar.Array.defineInstanceAndStatic({
 	},
 
 	// Maps each element of an array to a key/value pair in a new object
-	toObject<T>(array: T[], mapFn: Array.MapToKeyFn<T> = (el) => el && `${el}`) {
+	toObject<T>(array: T[], mapFn?: Array.MapToKeyFn<T>) {
+		const keyMapFn = (mapFn != null) ? mapFn : (el: T) => el && `${el}`
 		return array.reduce((obj, current, index, arr) => {
-			const result = mapFn(current, index, arr)
+			const result = keyMapFn(current, index, arr)
 			const [key, val] = Object.isArray(result) ? result : [result, current]
 			if (key != null) obj[key] = val
 			return obj
