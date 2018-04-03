@@ -1,4 +1,4 @@
-import 'sugar'
+import * as Sugar from 'sugar'
 
 declare global {
 	interface FunctionConstructor {
@@ -12,7 +12,7 @@ declare global {
 
 Sugar.Function.defineInstanceAndStatic({
 	isA(instance: Function, classType: Function) {
-		return (classType != null) && 
+		return (classType != null) &&
 			((instance == classType) || (instance.prototype instanceof classType))
 	}
 })

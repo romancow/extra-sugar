@@ -1,4 +1,4 @@
-import 'sugar'
+import * as Sugar from 'sugar'
 import { UnensuredArray } from './array'
 
 export type primitive = boolean | number | string | symbol | null | undefined
@@ -92,7 +92,7 @@ Sugar.Object.defineInstanceAndStatic({
 })
 
 Sugar.Object.defineStatic({
-	isDefined(instance: any) { 
-		return (typeof instance !== 'undefined') 
+	isDefined(instance: any) {
+		return (typeof instance !== 'undefined')
 	}
 })

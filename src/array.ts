@@ -1,5 +1,5 @@
 /// <reference path="../node_modules/sugar/sugar-extended.d.ts" />
-import 'sugar'
+import * as Sugar from 'sugar'
 
 export type UnensuredArray<T> = T[] | T | null;
 

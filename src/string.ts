@@ -1,11 +1,11 @@
-import 'sugar'
+import * as Sugar from 'sugar'
 
 declare global {
 	interface StringConstructor {
 		canBeNumber(instance: string): boolean
 		compare(str1: string | null, str2: string | null): -1 | 0 | 1
 	}
-	
+
 	interface String {
 		canBeNumber(): boolean
 		compare(str: string | null): -1 | 0 | 1
