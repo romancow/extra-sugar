@@ -5,6 +5,10 @@ export type UnensuredArray<T> = T[] | T | null;
 
 declare global {
 	interface ArrayConstructor {
+		// Sugar polyfills Array.from, but doesn't provide a typescript definition of it
+		from<T>(arrLike: ArrayLike<T>): T[]
+		from<T, U>(arrLike: ArrayLike<T>, mapFn: Array.MapFn<T, U>, context?: any): U[]
+
 		ensure<T>(instance: UnensuredArray<T>, ignoreNull?: boolean): T[]
 		move<T>(instance: T[], fromIndex: number, toIndex: number): T
 		indexesOf<T>(instance: T[], items: T[] | T): number[]
