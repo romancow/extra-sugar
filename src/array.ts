@@ -24,10 +24,11 @@ declare global {
 		// Sugar polyfills ES7's Array.includes, but doesn't provide a typescript definition of it
 		includes<T>(elem: T, fromIndex?: number): boolean
 		// Sugar's definitions doesn't include RegExp version
-		exclude(search: RegExp): T[]
+		exclude<T>(search: RegExp): T[]
 		remove(search: T|Array.SearchFn<T>): T[]
 		// Sugar's `Array.map` definition screws up intellisense, which is a pain since it's used a lot
 		map<U>(map: string | Array.MapFn<T, U>, context?: any): U[]
+		exclude<T>(search: T|Array.SearchFn<T>): T[]
 
 		move(fromIndex: number, toIndex: number): T
 		indexesOf(items: T[] | T): number[]
