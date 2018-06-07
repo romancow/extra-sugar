@@ -6,5 +6,6 @@ import './function'
 import './string'
 import './object'
 import './array'
+import './boolean'
 
 export default Sugar.extend()
