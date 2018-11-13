@@ -10,6 +10,7 @@ declare global {
 		forEach<T extends Object>(instance: T, fn: (val: T[keyof T], key: keyof T, obj: T) => void): T
 		select<T extends Object>(instance: T, find: string | RegExp | Array<string> | Object): Partial<T>
 		map<T extends Object, U>(instance: T, map: keyof T | Object.MapFn<T, U>): Record<keyof T, U>
+		isObject<T extends {} = {}>(instance: any): instance is T
 
 		mapKeys<T extends Object>(instance: T, map: Object.KeyMap<T>, skipNull?: boolean) : Object
 		cordon<T extends Object>(instance: T, deep?: boolean): Readonly<T>
@@ -36,7 +37,7 @@ Sugar.Object.defineInstanceAndStatic({
 		if (!Object.isFunction(map)) {
 			// optimization - don't iterate through entire object when we know the keys we want
 			const partial = skipNull ? Object.select(instance, map) : instance
-			return Object.mapKeys(partial, (key) => map[key], skipNull)
+			return Object.mapKeys(partial, (key) => map[<string>key], skipNull)
 		}
 		else {
 			const mapped: { [key: string]: any } = {}
@@ -44,7 +45,7 @@ Sugar.Object.defineInstanceAndStatic({
 				let newKey = map(key, val, instance)
 				if ((newKey !== false) && ((newKey != null) || !skipNull)) {
 					if ((newKey === true) || (newKey == null)) newKey = key
-					mapped[newKey] = val
+					mapped[<string>newKey] = val
 				}
 			})
 			return mapped
@@ -61,10 +62,10 @@ Sugar.Object.defineInstanceAndStatic({
 	},
 
 	replace<T extends Object, K extends keyof T>(instance: T, key: K, replacer: (val: T[K], obj: T) => T[K]) {
-		const val = Object.get<T[K]>(instance, key)
+		const val = Object.get<T[K]>(instance, <string>key)
 		const replacement = replacer.call(instance, val, instance)
 		if (replacement !== val)
-			Object.set(instance, key, replacement)
+			Object.set(instance, <string>key, replacement)
 		return instance
 	},
 
