@@ -22,13 +22,13 @@ declare global {
 
 	interface Array<T> {
 		// Sugar polyfills ES7's Array.includes, but doesn't provide a typescript definition of it
-		includes<T>(elem: T, fromIndex?: number): boolean
+		includes(elem: T, fromIndex?: number): boolean
 		// Sugar's definitions doesn't include RegExp version
-		exclude<T>(search: RegExp): T[]
+		exclude(search: RegExp): T[]
 		remove(search: T|Array.SearchFn<T>): T[]
 		// Sugar's `Array.map` definition screws up intellisense, which is a pain since it's used a lot
 		map<U>(map: string | Array.MapFn<T, U>, context?: any): U[]
-		exclude<T>(search: T|Array.SearchFn<T>): T[]
+		exclude(search: T|Array.SearchFn<T>): T[]
 
 		move(fromIndex: number, toIndex: number): T
 		indexesOf(items: T[] | T): number[]
@@ -44,7 +44,7 @@ declare global {
 		type MapFn<T, U> = (value: T, index: number, array: ReadonlyArray<T>) => U
 		type CallbackFn<T> = (value: T, index: number, array: T[]) => void
 		type SearchFn<T> = (el: T, i: number, arr: T[]) => boolean
-		type MapToKeyFn<T> = (el: T, index: number, array: T[]) => string | [string, any];
+		type MapToKeyFn<T> = (el: T, index: number, array: T[]) => string | [string, any]
 	}
 }
 
