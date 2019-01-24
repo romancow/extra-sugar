@@ -18,6 +18,7 @@ declare global {
 		indexes(instance: any[]): sugarjs.Range
 		normalizeIndex(instance: any[], index: number, loop?: boolean): number
 		expel<T>(instance: T[], items: UnensuredArray<T>): T[]
+		transpose<T>(instance: T[][], missing?: T | Array.TransposeMissignFn<T>): T[][]
 	}
 
 	interface Array<T> {
@@ -38,6 +39,7 @@ declare global {
 		indexes(): sugarjs.Range
 		normalizeIndex(index: number, loop?: boolean): number
 		expel(items: UnensuredArray<T>): this
+		transpose<T extends Array<U>, U>(missing?: U | Array.TransposeMissignFn<U>): U[][]
 	}
 
 	namespace Array {
@@ -45,7 +47,12 @@ declare global {
 		type CallbackFn<T> = (value: T, index: number, array: T[]) => void
 		type SearchFn<T> = (el: T, i: number, arr: T[]) => boolean
 		type MapToKeyFn<T> = (el: T, index: number, array: T[]) => string | [string, any]
+		type TransposeMissignFn<T> = (rowIndex: number, colIndex: number, array: T[][]) => T
 	}
+}
+
+const TransposeThrowErrorFn = (rowIndex: number, colIndex: number) => {
+	throw new Error(`Can't transpose, missing column ${colIndex} of row ${rowIndex}`)
 }
 
 Sugar.Array.defineStatic({
@@ -116,4 +123,18 @@ Sugar.Array.defineInstanceAndStatic({
 		const itemsArr = Array.ensure(items, items === undefined)
 		return array.remove((item) => itemsArr.includes(item))
 	},
+
+	// Transposes the rows and columns in array of arrays
+	transpose<T>(array: T[][], missing: T | Array.TransposeMissignFn<T> = TransposeThrowErrorFn) {
+		const size = array.map<number>('length').max()
+		return size.times(colIndex => {
+			return array.map((subArr, rowIndex) => {
+				if (colIndex < subArr.length)
+					return subArr[colIndex]
+				else if (Object.isFunction(missing!))
+					return (missing as Function)(colIndex, rowIndex, array)
+				else return missing
+			})
+		})
+	}
 })
