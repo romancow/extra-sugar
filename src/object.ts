@@ -23,10 +23,34 @@ declare global {
 	}
 
 	namespace Object {
-		type CollectFn<T extends Object, U> = (val: T[keyof T], key: keyof T, obj: T) => U
-		type MapFn<T extends Object, U> = CollectFn<T, U>
-		type KeyMap<T extends Object> = ((key: keyof T, value: T[keyof T], obj: T) => primitive) | { [key: string]: primitive }
-		type DuplicateFn = <T extends Object>(orig: T) => T | typeof Sugar
+		type CollectFn<T extends Object, U> = sugarjs.Object.CollectFn<T, U>
+		type MapFn<T extends Object, U> = sugarjs.Object.MapFn<T, U>
+		type KeyMap<T extends Object> = sugarjs.Object.KeyMap<T>
+		type DuplicateFn = sugarjs.Object.DuplicateFn
+	}
+
+	namespace sugarjs {
+		namespace Object {
+			type CollectFn<T extends Object, U> = (val: T[keyof T], key: keyof T, obj: T) => U
+			type MapFn<T extends Object, U> = CollectFn<T, U>
+			type KeyMap<T extends Object> = ((key: keyof T, value: T[keyof T], obj: T) => primitive) | { [key: string]: primitive }
+			type DuplicateFn = <T extends Object>(orig: T) => T | typeof Sugar
+
+			interface Constructor {
+				<T extends Object>(raw?: T): Chainable<T>
+				new<T extends Object>(raw?: T): Chainable<T>
+			}
+
+			interface ChainableBase<T> {
+				mapKeys(map: KeyMap<T>, skipNull?: boolean) : SugarDefaultChainable<Object>
+				cordon(deep?: boolean): SugarDefaultChainable<Readonly<T>>
+				collect<U>(collectFn: CollectFn<T, U>): SugarDefaultChainable<U[]>
+				replace<K extends keyof T>(key: K, replacer: (val: T[K], obj: T) => T[K]): SugarDefaultChainable<T>
+				selectValues<K extends keyof T>(keys: UnensuredArray<K>): SugarDefaultChainable<T[K][]>
+				getWithDefault<U>(key: string, dfault: U, inherited?: boolean): SugarDefaultChainable<U>
+				duplicate(duplicateFn?: DuplicateFn): SugarDefaultChainable<T>
+			}
+		}
 	}
 }
 
