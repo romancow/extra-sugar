@@ -17,7 +17,7 @@ declare global {
 		selectValues<T extends Object, K extends keyof T>(instance: T, keys: UnensuredArray<K>): T[K][]
 		getWithDefault<T extends Object, U>(instance: T, key: string, dfault: U, inherited?: boolean): U
 		duplicate<T extends Object>(instance: T, duplicateFn?: Object.DuplicateFn): T
-		when<T>(instance: T, condition: boolean | ((obj: T) => boolean), whenFn: (obj: T) => T): T
+		when<T>(instance: T, condition: boolean | ((obj: T) => boolean), whenFn: Object.WhenFn<T>): T
 
 		isDefined(instance: any): boolean
 	}
@@ -27,6 +27,7 @@ declare global {
 		type MapFn<T extends Object, U> = sugarjs.Object.MapFn<T, U>
 		type KeyMap<T extends Object> = sugarjs.Object.KeyMap<T>
 		type DuplicateFn = sugarjs.Object.DuplicateFn
+		type WhenFn<T> = sugarjs.Object.WhenFn<T>
 	}
 
 	namespace sugarjs {
@@ -35,6 +36,7 @@ declare global {
 			type MapFn<T extends Object, U> = CollectFn<T, U>
 			type KeyMap<T extends Object> = ((key: keyof T, value: T[keyof T], obj: T) => primitive) | { [key: string]: primitive }
 			type DuplicateFn = <T extends Object>(orig: T) => T | typeof Sugar
+			type WhenFn<T> = (obj: T) => (T | void)
 
 			interface Constructor {
 				<T extends Object>(raw?: T): Chainable<T>
@@ -49,6 +51,7 @@ declare global {
 				selectValues<K extends keyof T>(keys: UnensuredArray<K>): SugarDefaultChainable<T[K][]>
 				getWithDefault<U>(key: string, dfault: U, inherited?: boolean): SugarDefaultChainable<U>
 				duplicate(duplicateFn?: DuplicateFn): SugarDefaultChainable<T>
+				when(condition: boolean | ((obj: T) => boolean), whenFn: WhenFn<T>): SugarDefaultChainable<T>
 			}
 		}
 	}
@@ -114,6 +117,13 @@ Sugar.Object.defineInstanceAndStatic({
 				result = Object.clone(instance)
 		}
 		return result
+	},
+
+	when<T>(instance: T, condition: boolean | ((obj: T) => boolean), whenFn: Object.WhenFn<T>) {
+		const doWhenFn = Object.isFunction(condition) ? condition(instance) : condition
+		if (!doWhenFn) return instance
+		const updated = whenFn(instance)
+		return Object.isDefined(updated) ? updated : instance
 	}
 })
 
