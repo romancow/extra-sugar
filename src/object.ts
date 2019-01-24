@@ -1,8 +1,6 @@
 import * as Sugar from 'sugar'
 import { UnensuredArray } from './array'
 
-export type primitive = boolean | number | string | symbol | null | undefined
-
 declare global {
 	interface ObjectConstructor {
 		// better/updated definitions for Sugar's added object methods

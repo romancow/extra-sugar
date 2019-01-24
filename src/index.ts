@@ -1,6 +1,7 @@
 import './map'
 import './set'
 import * as Sugar from 'sugar'
+import './primitive'
 import './number'
 import './function'
 import './string'
