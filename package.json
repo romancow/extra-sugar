@@ -10,7 +10,10 @@
     "prepare": "npm run build"
   },
   "repository": "https://github.com/romancow/extra-sugar",
-  "files": ["dist/", "types/"],
+  "files": [
+    "dist/",
+    "types/"
+  ],
   "keywords": [
     "sugar",
     "sugarjs",
@@ -28,9 +31,9 @@
   },
   "homepage": "https://github.com/romancow/extra-sugar",
   "dependencies": {
-    "sugar": "^2.0.4"
+    "sugar": "^2.0.6"
   },
   "devDependencies": {
-    "typescript": "^2.6.2"
+    "typescript": "^3.5.2"
   }
 }
