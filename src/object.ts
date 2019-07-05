@@ -43,15 +43,15 @@ declare global {
 				new<T extends Object>(raw?: T): Chainable<T>
 			}
 
-			interface ChainableBase<T> {
-				mapKeys(map: KeyMap<T>, skipNull?: boolean) : SugarDefaultChainable<Object>
-				cordon(deep?: boolean): SugarDefaultChainable<Readonly<T>>
-				collect<U>(collectFn: CollectFn<T, U>): SugarDefaultChainable<U[]>
-				replace<K extends keyof T>(key: K, replacer: (val: T[K], obj: T) => T[K]): SugarDefaultChainable<T>
-				selectValues<K extends keyof T>(keys: UnensuredArray<K>): SugarDefaultChainable<T[K][]>
+			interface ChainableBase<RawValue> {
+				mapKeys(map: KeyMap<RawValue>, skipNull?: boolean) : SugarDefaultChainable<Object>
+				cordon(deep?: boolean): SugarDefaultChainable<Readonly<RawValue>>
+				collect<U>(collectFn: CollectFn<RawValue, U>): SugarDefaultChainable<U[]>
+				replace<K extends keyof RawValue>(key: K, replacer: (val: RawValue[K], obj: RawValue) => RawValue[K]): SugarDefaultChainable<RawValue>
+				selectValues<K extends keyof RawValue>(keys: UnensuredArray<K>): SugarDefaultChainable<RawValue[K][]>
 				getWithDefault<U>(key: string, dfault: U, inherited?: boolean): SugarDefaultChainable<U>
-				duplicate(duplicateFn?: DuplicateFn): SugarDefaultChainable<T>
-				when(condition: boolean | ((obj: T) => boolean), whenFn: WhenFn<T>): SugarDefaultChainable<T>
+				duplicate(duplicateFn?: DuplicateFn): SugarDefaultChainable<RawValue>
+				when(condition: boolean | ((obj: RawValue) => boolean), whenFn: WhenFn<RawValue>): SugarDefaultChainable<RawValue>
 			}
 		}
 	}
@@ -110,7 +110,7 @@ Sugar.Object.defineInstanceAndStatic({
 			if (cloneable && Object.isFunction(cloneable.clone))
 				result = cloneable.clone()
 			else if (Object.isArray(instance))
-				result = <any>instance.map(item => Object.duplicate(item, duplicateFn))
+				result = <any>instance.map((item: any) => Object.duplicate(item, duplicateFn))
 			else if (Object.isObject(instance))
 				result = <any>Object.map(instance, val => <any>Object.duplicate(<any>val, duplicateFn))
 			else
