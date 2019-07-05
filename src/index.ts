@@ -1,3 +1,5 @@
+/// <refernce types="sugar" />
+
 import './map'
 import './set'
 import * as Sugar from 'sugar'
