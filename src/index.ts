@@ -1,4 +1,5 @@
-/// <refernce types="sugar" />
+/// <reference types="sugar" />
+/// <reference types="sugar/sugar-extended" />
 
 import './map'
 import './set'
