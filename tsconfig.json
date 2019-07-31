@@ -11,7 +11,7 @@
         "outDir": "./dist",
         "removeComments": true,
         "sourceMap": true,
-		"strictNullChecks": true,
+        "strictNullChecks": true,
 		"target": "es5"
     },
     "include": [

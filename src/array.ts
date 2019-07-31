@@ -1,4 +1,4 @@
-/// <reference path="../node_modules/sugar/sugar-extended.d.ts" />
+/// <reference types="sugar/sugar-extended" />
 import * as Sugar from 'sugar'
 
 export type UnensuredArray<T> = T[] | T | null;
