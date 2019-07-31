@@ -7,6 +7,17 @@ declare global {
 	}
 
 	interface String {
+		// #region polyfills
+
+		/**
+		 * Returns true if the sequence of elements of searchString converted to a String is the
+		 * same as the corresponding elements of this object (converted to a String) starting at
+		 * position. Otherwise returns false.
+		 */
+		startsWith(searchString: string, position?: number): boolean
+
+		// #endregion polyfills
+
 		canBeNumber(): boolean
 		compare(str: string | null): -1 | 0 | 1
 		splice(start: number, deleteCount?: number, ...items: string[]): string
