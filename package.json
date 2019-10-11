@@ -1,39 +1,52 @@
 {
-  "name": "extra-sugar",
-  "version": "0.9.6",
-  "description": "Additional helpful methods and TypeScript definitions for Sugar JS",
-  "main": "./dist/index.js",
-  "types": "./types/index.d.ts",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "tsc -p .",
-    "prepare": "npm run build"
-  },
-  "repository": "https://github.com/romancow/extra-sugar",
-  "files": [
-    "dist/",
-    "types/"
-  ],
-  "keywords": [
-    "sugar",
-    "sugarjs",
-    "functional",
-    "utility",
-    "polyfill",
-    "extra",
-    "add-on"
-  ],
-  "author": "Sean Wilson",
-  "license": "MIT",
-  "licenseUrl": "https://raw.githubusercontent.com/romancow/extra-sugar/master/LICENSE.txt",
-  "bugs": {
-    "url": "https://github.com/romancow/extra-sugar/issues"
-  },
-  "homepage": "https://github.com/romancow/extra-sugar",
-  "dependencies": {
-    "sugar": "^2.0.6"
-  },
-  "devDependencies": {
-    "typescript": "^3.6.4"
-  }
+	"name": "@romancow/extra-sugar",
+	"version": "0.9.6",
+	"description": "Additional helpful methods and TypeScript definitions for Sugar JS",
+	"main": "umd/extra-sugar.js",
+	"module": "es6/index.js",
+	"types": "types/index.d.ts",
+	"files": [
+		"es6/",
+		"umd/",
+		"types/"
+	],
+	"repository": "git://github.com/romancow/extra-sugar.git",
+	"publishConfig": {
+		"registry": "https://npm.pkg.github.com/"
+	},
+	"keywords": [
+		"sugar",
+		"sugarjs",
+		"functional",
+		"utility",
+		"polyfill",
+		"extra",
+		"add-on"
+	],
+	"author": "Sean Wilson",
+	"license": "MIT",
+	"licenseUrl": "https://raw.githubusercontent.com/romancow/extra-sugar/master/LICENSE.txt",
+	"bugs": {
+		"url": "https://github.com/romancow/extra-sugar/issues"
+	},
+	"homepage": "https://github.com/romancow/extra-sugar",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"clean": "rimraf ./es6 ./umd ./types",
+		"build:es6": "tsc -p .",
+		"build:umd": "rollup -c",
+		"prebuild": "npm run clean",
+		"build": "npm run build:es6 && npm run build:umd",
+		"prepare": "npm run build"
+	},
+	"dependencies": {
+		"sugar": "^2.0.6"
+	},
+	"devDependencies": {
+		"rimraf": "^3.0.0",
+		"rollup": "^1.23.1",
+		"rollup-plugin-node-resolve": "^5.2.0",
+		"rollup-plugin-terser": "^5.1.2",
+		"typescript": "^3.6.4"
+	}
 }

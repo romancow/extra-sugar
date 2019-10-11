@@ -10,7 +10,7 @@
 		"noImplicitReturns": true,
 		"noUnusedLocals": true,
 		"removeComments": true,
-		"outDir": "./dist",
+		"outDir": "./es6",
 		"target": "es5"
 	},
 	"include": [
