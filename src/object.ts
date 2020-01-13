@@ -1,5 +1,4 @@
 import * as Sugar from 'sugar'
-import { UnensuredArray } from './array'
 
 declare global {
 	interface ObjectConstructor {

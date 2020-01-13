@@ -1,8 +1,6 @@
 /// <reference types="sugar/sugar-extended" />
 import * as Sugar from 'sugar'
 
-export type UnensuredArray<T> = T[] | T | null;
-
 declare global {
 	interface ArrayConstructor {
 		// Sugar polyfills Array.from, but doesn't provide a typescript definition of it
