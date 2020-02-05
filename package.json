@@ -6,9 +6,9 @@
 	"module": "es6/index.js",
 	"types": "types/index.d.ts",
 	"files": [
-		"es6/",
-		"umd/",
-		"types/"
+		"es6/**.js",
+		"umd/**.js",
+		"types/**.d.ts"
 	],
 	"repository": "git://github.com/romancow/extra-sugar.git",
 	"publishConfig": {
