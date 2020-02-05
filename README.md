@@ -1,10 +1,9 @@
 # ExtraSugar
 
-Adds extra native object methods using the [Sugar](https://sugarjs.com/) Javascript utility library. It also corrects and enhances existing Sugar typescript definitions. 
+Adds extra native object methods using the [Sugar](https://sugarjs.com/) Javascript utility library. It also corrects and enhances existing Sugar typescript definitions.
 
 ## Sugar repo
 https://github.com/andrewplummer/Sugar
-
 
 ## Methods
 
@@ -26,6 +25,8 @@ https://github.com/andrewplummer/Sugar
 	<dt><code>.getWithDefault(obj, key, default, [inherited])</code></dt>
 	<dd></dd>
 	<dt><code>.duplicate(obj, [duplicateFn])</code></dt>
+	<dd></dd>
+	<dt><code>.when(obj, condition, whenFn)</code></dt>
 	<dd></dd>
 </dl>
 
@@ -62,11 +63,47 @@ https://github.com/andrewplummer/Sugar
 	<dd></dd>
 	<dt><code>.expel(items)</code></dt>
 	<dd></dd>
+	<dt><code>.transpose(items, [missing])</code></dt>
+	<dd></dd>
 </dl>
 
 ### Function
 
 <dl>
 	<dt><code>.isA(classType)</code></dt>
+	<dd></dd>
+</dl>
+
+### Boolean
+
+<dl>
+	<dt><code>Boolean.parse(value)</code></dt>
+	<dd></dd>
+</dl>
+
+### Date
+
+<dl>
+	<dt><code>Date.earliest(dates)</code></dt>
+	<dd></dd>
+	<dt><code>Date.latest(dates)</code></dt>
+	<dd></dd>
+</dl>
+
+### Range
+
+<dl>
+	<dt><code>start</code></dt>
+	<dd></dd>
+	<dt><code>end</code></dt>
+	<dd></dd>
+</dl>
+
+## Types
+
+<dl>
+	<dt><code>primitive</code></dt>
+	<dd></dd>
+	<dt><code>UnensuredArray&ltT&gt</code></dt>
 	<dd></dd>
 </dl>
