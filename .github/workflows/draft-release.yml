@@ -19,10 +19,8 @@ jobs:
         with:
           node-version: 12
           registry-url: 'https://npm.pkg.github.com'
-      - name: Install Yarn
-        run: npm install -g yarn
-      - name: Install Dependencies & Build
-        run: yarn install
+      - name: Install & Build
+        run: npm ci
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1.0.0
