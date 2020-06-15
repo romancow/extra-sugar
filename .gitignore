@@ -14,7 +14,10 @@ tmp/
 .vscode/
 
 # ignore distribution files
-dist
-es6
-umd
-types
+/dist
+/es6
+/umd
+/types
+
+# ignore nosync foldr
+.nosync
