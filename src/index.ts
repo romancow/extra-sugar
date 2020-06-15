@@ -1,4 +1,3 @@
-/// <reference types="sugar/sugar-extended" />
 import * as Sugar from 'sugar'
 import './primitive'
 import './number'
