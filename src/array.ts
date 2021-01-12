@@ -7,6 +7,7 @@ declare global {
 		from<T>(arrLike: ArrayLike<T>): T[]
 		from<T, U>(arrLike: ArrayLike<T>, mapFn: Array.MapFn<T, U>, context?: any): U[]
 
+		ensure<T>(instance: UnensuredArray<T> | null, ignoreNull: true): T[]
 		ensure<T>(instance: UnensuredArray<T>, ignoreNull?: boolean): T[]
 		move<T>(instance: T[], fromIndex: number, toIndex: number): T
 		indexesOf<T>(instance: T[], items: T[] | T): number[]
@@ -17,6 +18,7 @@ declare global {
 		normalizeIndex(instance: any[], index: number, loop?: boolean): number
 		expel<T>(instance: T[], items: UnensuredArray<T>): T[]
 		transpose<T>(instance: T[][], missing?: T | Array.TransposeMissignFn<T>): T[][]
+		awaitEach<T, A extends readonly T[]>(array: A, eachFn: Array.MapFn<T, Promise<void>, A>): Promise<void>
 	}
 
 	interface Array<T> {
@@ -38,10 +40,11 @@ declare global {
 		normalizeIndex(index: number, loop?: boolean): number
 		expel(items: UnensuredArray<T>): this
 		transpose<T extends Array<U>, U>(missing?: U | Array.TransposeMissignFn<U>): U[][]
+		awaitEach<A extends readonly T[]>(array: A, eachFn: Array.MapFn<T, Promise<void>, A>): Promise<void>
 	}
 
 	namespace Array {
-		type MapFn<T, U> = (value: T, index: number, array: ReadonlyArray<T>) => U
+		type MapFn<T, U, A extends readonly T[] = readonly T[]> = (value: T, index: number, array: A) => U
 		type CallbackFn<T> = (value: T, index: number, array: T[]) => void
 		type SearchFn<T> = (el: T, i: number, arr: T[]) => boolean
 		type MapToKeyFn<T> = (el: T, index: number, array: T[]) => string | [string, any]
@@ -134,5 +137,13 @@ Sugar.Array.defineInstanceAndStatic({
 				else return missing
 			})
 		})
+	},
+
+	// Resolve each function return promise before calling next
+	async awaitEach<T, A extends readonly T[]>(array: A, eachFn: Array.MapFn<T, Promise<void>, A>) {
+		for (let index = 0; index < array.length; index++) {
+			const item = array[index]
+			await eachFn(item, index, array)
+		}
 	}
 })
