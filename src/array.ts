@@ -40,7 +40,7 @@ declare global {
 		normalizeIndex(index: number, loop?: boolean): number
 		expel(items: UnensuredArray<T>): this
 		transpose<T extends Array<U>, U>(missing?: U | Array.TransposeMissignFn<U>): U[][]
-		awaitEach<A extends readonly T[]>(array: A, eachFn: Array.MapFn<T, Promise<void>, A>): Promise<void>
+		awaitEach(eachFn: Array.MapFn<T, Promise<void>, this>): Promise<void>
 	}
 
 	namespace Array {
