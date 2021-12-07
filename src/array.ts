@@ -7,8 +7,10 @@ declare global {
 		from<T>(arrLike: ArrayLike<T>): T[]
 		from<T, U>(arrLike: ArrayLike<T>, mapFn: Array.MapFn<T, U>, context?: any): U[]
 
-		ensure<T>(instance: UnensuredArray<T> | null, ignoreNull: true): T[]
-		ensure<T>(instance: UnensuredArray<T>, ignoreNull?: boolean): T[]
+		ensure<T, A extends T[]>(instance: UnensuredArray<T, A> | null, ignoreNull: true): T[]
+		ensure<T, A extends readonly T[]>(instance: UnensuredArray<T, A> | null, ignoreNull: true): readonly T[]
+		ensure<T, A extends T[]>(instance: UnensuredArray<T, A>, ignoreNull?: boolean): T[]
+		ensure<T, A extends readonly T[]>(instance: UnensuredArray<T, A>, ignoreNull?: boolean): readonly T[]
 		move<T>(instance: T[], fromIndex: number, toIndex: number): T
 		indexesOf<T>(instance: T[], items: T[] | T): number[]
 		sift<T>(instance: T[], search: Array.SearchFn<T>): T[]
@@ -73,8 +75,8 @@ Sugar.Array.defineInstanceAndStatic({
 		return item
 	},
 
-	indexesOf<T>(array: T[], items: T[] | T) {
-		const itemsArr = Array.ensure<T>(items, items === undefined)
+	indexesOf<T>(array: T[], items: readonly T[] | T) {
+		const itemsArr = Array.ensure(items, items === undefined)
 		return array
 			.map<number | null>((item: T, index: number) => itemsArr.includes(item) ? index : null)
 			.compact()

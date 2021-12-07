@@ -131,7 +131,7 @@ Sugar.Object.defineInstanceAndStatic({
 	},
 
 	selectValues<T extends Object, K extends keyof T>(instance: T, keys: UnensuredArray<K>) {
-		return Array.ensure<K>(keys, true).map((key: K) => instance[key])
+		return Array.ensure(keys, true).map((key: K) => instance[key])
 	},
 
 	getWithDefault<T extends Object, U>(instance: T, key: string, dfault: U, inherited?: boolean) {
